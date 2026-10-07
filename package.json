@@ -8,5 +8,9 @@
         "passport": "^0.7.0",
         "passport-local": "^1.0.0",
         "pg": "^8.23.1"
+    },
+    "scripts": {
+        "db:create": "node db/tableUtils create",
+        "db:delete": "node db/tableUtils delete" 
     }
 }

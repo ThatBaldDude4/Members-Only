@@ -74,3 +74,17 @@ async function deleteAllTables() {
         await client.end();
     }
 }
+
+async function main() {
+    const command = process.argv[2];
+
+    if (command === "create") {
+        await createTables();
+    }
+
+    if (command === "delete") {
+        await deleteAllTables();
+    }
+};
+
+main();

@@ -50,18 +50,37 @@ const postSignUpController = [
     signUpValidation,
     async (req, res, next) => {
         const errors = validationResult(req);
+        const {first_name, last_name, password, email, username} = req.body;
 
         if (!errors.isEmpty()) {
             return res.render("sign-up-form", {
-                errors: errors.array()
+                errors: errors.array(),
+                form_data: {
+                    first_name,
+                    last_name,
+                    email,
+                    username,
+                    password
+                }
             })
         }
         try {
-            const {first_name, last_name, password, email, username} = req.body;
             const hashedPassword = await bcrypt.hash(password, 10);
-            await addNewUser({first_name, last_name, username, hashedPassword});
+            await addNewUser({first_name, last_name, username, hashedPassword, email});
             res.redirect("/");
         }catch(err) {
+            if (err.code === "23505") {
+                return res.render("sign-up-form", {
+                    errors: [{msg: "Username already taken"}],
+                    form_data: {
+                        first_name,
+                        last_name,
+                        email,
+                        username,
+                        password
+                    }
+                })
+            }
             return next(err);
         }
     }

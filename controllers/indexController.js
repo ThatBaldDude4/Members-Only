@@ -12,6 +12,10 @@ const signUpValidation = [
         .trim()
         .isLength({min: 1, max: 255})
         .withMessage("Last name must be between 1 - 255 characters"),
+    body("username")
+        .trim()
+        .isLength({min: 1, max: 255})
+        .withMessage("Username must be between 1 - 255 characters"),
     body("email")
         .trim()
         .isEmail()
@@ -95,7 +99,7 @@ const postLoginController = (req, res) => {
     })(req, res);
 }
 
-const getLogoutController = (req, res) => {
+const getLogoutController = (req, res, next) => {
     req.logout((err) => {
         if (err) {
             return next(err);

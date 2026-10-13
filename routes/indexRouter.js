@@ -16,7 +16,7 @@ const { isAuthenticated } = require("../middleware/authMiddleware");
 const indexRouter = Router();
 
 indexRouter.get("/", (req, res) => {
-    res.redirect("/login");
+    res.redirect("/home");
 });
 
 indexRouter.get("/login", getLoginController);

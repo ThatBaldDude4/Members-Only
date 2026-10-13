@@ -14,6 +14,7 @@ const session = require("express-session");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 
@@ -89,7 +90,7 @@ app.use((err, req, res, next) => {
 })
 
 // open port connection
-app.listen(8000, (error) => {
+app.listen(PORT, "0.0.0.0", (error) => {
     if (error) {
         throw error;
     }

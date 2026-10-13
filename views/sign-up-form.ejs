@@ -18,23 +18,23 @@
     <form action="/sign-up" method="POST">
         <label>
             First Name:
-            <input id="first-name" name="first_name" type="text" />
+            <input id="first-name" name="first_name" type="text" value="<%= locals.form_data ? form_data.first_name : "" %>" />
         </label>
         <label>
             Last Name:
-            <input id="last-name" name="last_name" type="text" />
+            <input id="last-name" name="last_name" type="text" value="<%= locals.form_data ? form_data.last_name : "" %>" />
         </label>
         <label>
             Email:
-            <input id="email" name="email" type="email" />
+            <input id="email" name="email" type="email" value="<%= locals.form_data ? form_data.email : "" %>" />
         </label>
         <label>
             Username:
-            <input id="username" name="username" type="text" />
+            <input id="username" name="username" type="text" value="<%= locals.form_data ? form_data.username : "" %>" />
         </label>
         <label>
             Password:
-            <input id="password" name="password" type="password" />
+            <input id="password" name="password" type="password" value="<%= locals.form_data ? form_data.password : "" %>" />
         </label>
         <label>
             Confirm Password:

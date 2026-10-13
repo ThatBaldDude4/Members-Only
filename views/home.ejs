@@ -17,17 +17,24 @@
     <% if (locals.posts) { %> 
         <% posts.forEach(post => { %>
 
-            <p>Author: <%= user?.member_status ? post.username : "******" %></p>
-            <p><%= post.message %></p>
-            <p>
-                <%= new Date(post.created_at).toLocaleString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "2-digit"
-                }) %>
-            </p>
+            <div>
+                <h3><%= post.title %></h3>
+                <p>Author: <%= user?.member_status ? post.username : "******" %></p>
+                <p><%= post.message %></p>
+                <% if (user?.member_status) { %>
+                    <p>
+                       <%= 
+                        new Date(post.created_at).toLocaleString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "2-digit"
+                        })
+                       %> 
+                    </p>    
+                <% }; %>
+            </div>
 
             <% if (user?.member_status === "admin") { %>
                 <form action="/delete-post/<%= post.id %>" method="POST">

@@ -8,14 +8,21 @@
 <body>
     <h1>Sign Up</h1>
 
+    <% if (locals.errors && errors.length > 0) { %>
+        <ul>
+            <% errors.forEach((error) => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
     <form action="/sign-up" method="POST">
         <label>
             First Name:
-            <input id="first-name" name="first-name" type="text" />
+            <input id="first-name" name="first_name" type="text" />
         </label>
         <label>
             Last Name:
-            <input id="last-name" name="last-name" type="text" />
+            <input id="last-name" name="last_name" type="text" />
         </label>
         <label>
             Email:
@@ -31,7 +38,7 @@
         </label>
         <label>
             Confirm Password:
-            <input id="confirm-password" name="confirm-password" type="password" />
+            <input id="confirm-password" name="confirm_password" type="password" />
         </label>
         <button type="submit">Sign Up</button>
     </form>

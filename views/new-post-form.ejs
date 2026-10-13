@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post</title>
+</head>
+<body>
+    <h1>Posts Form</h1>
+    <% if (locals.errors) { %>
+        <ul>
+            <% errors.forEach((err) => { %> 
+                <li><%= err.msg %></li>    
+            <% }); %>   
+        </ul>
+    <% }; %>
+
+    <form action="/posts/new" method="POST">
+        <label>
+            Title:
+            <input type="text" name="title"/>
+        </label>
+        <label>
+            Message:
+            <input type="text" name="message"/>
+        </label>
+        <button type="submit">Enter</button>
+    </form>
+</body>
+</html>

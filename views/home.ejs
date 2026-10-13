@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Message Board Page</h1>
+
+    <a href="/membership">Update Membership</a>
+    <a href="/posts/new">New Post</a>
+    <a href="/logout">Logout</a>
+
+    <% if (locals.posts) { %> 
+        <% posts.forEach(post => { %>
+
+            <p>Author: <%= user?.member_status ? post.username : "******" %></p>
+            <p><%= post.message %></p>
+
+            <% if (user?.member_status === "admin") { %>
+                <form action="/delete-post/<%= post.id %>" method="POST">
+                    <button type="submit">DELETE POST</button>
+                </form>
+            <% } %>
+
+        <% }); %>
+    <% } %>
+</body>
+</html>

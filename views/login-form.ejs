@@ -7,17 +7,27 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form action="/login" method="POST">
-        <label>
-            Username:
-            <input id="username" name="username" type="text" />
-        </label>
-        <label>
-            Password:
-            <input id="password" name="password" type="password" />
-        </label>
-        <button type="submit">Login</button>
-    </form>
-    <a href="/sign-up">Sign Up</a>
+    <% if (locals.user) { %>
+        <h1>Welcome back <%= user.username %></h1>
+        <a href="/home">Home</a>
+        <a href="/logout">LOG OUT</a>
+    <% } else { %>
+        <form action="/login" method="POST">
+            <label>
+                Username:
+                <input id="username" name="username" type="text" />
+            </label>
+
+            <label>
+                Password:
+                <input id="password" name="password" type="password" />
+            </label>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <a href="/sign-up">Sign Up</a>
+    <% } %>
+    
 </body>
 </html>

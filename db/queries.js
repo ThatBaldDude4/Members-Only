@@ -1,11 +1,11 @@
 const pool = require("./pool");
 
-async function addNewUser({first_name, last_name, username, hashedPassword}) {
+async function addNewUser({first_name, last_name, username, hashedPassword, email}) {
     await pool.query(`
         INSERT INTO users 
-        (first_name, last_name, username, member_status, hash) 
-        VALUES ($1, $2, $3, $4, $5);
-        `, [first_name, last_name, username, null, hashedPassword]);
+        (first_name, last_name, username, member_status, hash, email) 
+        VALUES ($1, $2, $3, $4, $5, $6);
+        `, [first_name, last_name, username, null, hashedPassword, email]);
 }
 
 async function addNewPost({title, message, user_id}) {

@@ -71,6 +71,15 @@ passport.deserializeUser(async (id, done) => {
 // routes
 app.use("/", indexRouter);
 
+app.use("*splat", (req, res) => {
+    res.status(404).render("404");
+})
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render("error");
+})
+
 // open port connection
 app.listen(8000, (error) => {
     if (error) {

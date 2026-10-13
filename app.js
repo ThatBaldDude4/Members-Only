@@ -94,5 +94,5 @@ app.listen(PORT, "0.0.0.0", (error) => {
     if (error) {
         throw error;
     }
-    console.log("server listening on port 8000!");
+    console.log("server listening on port ", PORT);
 });

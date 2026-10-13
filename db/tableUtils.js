@@ -25,6 +25,7 @@ const usersSQL = `
         last_name VARCHAR(255) NOT NULL,
         username VARCHAR(255) UNIQUE NOT NULL,
         member_status VARCHAR(255),
+        email VARCHAR(255) NOT NULL,
         hash TEXT NOT NULL
     );
 `;
@@ -59,6 +60,7 @@ async function deleteAllTables() {
     const SQL = `
         DROP TABLE IF EXISTS posts;
         DROP TABLE IF EXISTS users;
+        DROP TABLE IF EXISTS session;
     `;
     const client = new Client({
         connectionString: connectString,

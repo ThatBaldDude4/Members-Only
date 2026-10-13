@@ -4,6 +4,7 @@ const indexRouter = require("./routes/indexRouter");
 const pool = require("./db/pool");
 const session = require("express-session");
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 
 const app = express();
@@ -12,7 +13,17 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(session({secret: "pass", resave: false, saveUninitialized: false}));
+app.use(session({
+    store: new (require('connect-pg-simple')(session))({
+        // db connection
+        pool: pool,
+        createTableIfMissing: true
+    }),
+    secret: "changeThis",
+    resave: false,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000},
+    saveUninitialized: false
+}));
 app.use(passport.session());
 app.use(express.urlencoded({extended: true}));
 
@@ -25,9 +36,9 @@ passport.use(
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
-      console.log(user);
-      console.log("My password is: ", password);
-      if (user.hash !== password) {
+      
+      const match = await bcrypt.compare(password, user.hash);
+      if (!match) {
         return done(null, false, { message: "Incorrect password" });
       }
       return done(null, user);
@@ -45,6 +56,11 @@ passport.deserializeUser(async (id, done) => {
     try {
         const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
         const user = rows[0];
+
+        if (!user) {
+            return done(null, false);
+        }
+
         done(null, user);
     }catch(err) {
         done(err);

@@ -1,6 +1,8 @@
 {
     "type": "commonjs",
     "dependencies": {
+        "bcryptjs": "^3.0.3",
+        "connect-pg-simple": "^10.0.0",
         "ejs": "^7.0.1",
         "express": "^5.2.1",
         "express-session": "^1.19.0",
@@ -11,6 +13,6 @@
     },
     "scripts": {
         "db:create": "node db/tableUtils create",
-        "db:delete": "node db/tableUtils delete" 
+        "db:delete": "node db/tableUtils delete"
     }
 }

@@ -1,13 +1,5 @@
 const { Pool } = require("pg");
 
-try {
-    process.loadEnvFile();
-} catch (err) {
-    if (err.code !== "ENOENT") {
-        throw err;
-    }
-}
-
 const {
     USER,
     PASSWORD,

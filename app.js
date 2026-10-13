@@ -1,3 +1,11 @@
+try {
+    process.loadEnvFile();
+} catch (err) {
+    if (err.code !== "ENOENT") {
+        throw err;
+    }
+}
+
 const express = require("express");
 const path = require("node:path");
 const indexRouter = require("./routes/indexRouter");
@@ -19,7 +27,7 @@ app.use(session({
         pool: pool,
         createTableIfMissing: true
     }),
-    secret: "changeThis",
+    secret: process.env.MY_SECRET,
     resave: false,
     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000},
     saveUninitialized: false

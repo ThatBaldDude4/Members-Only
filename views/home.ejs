@@ -9,14 +9,25 @@
     <h1>Message Board Page</h1>
 
     <a href="/membership">Update Membership</a>
-    <a href="/posts/new">New Post</a>
-    <a href="/logout">Logout</a>
+    <% if (locals.user) { %>
+        <a href="/posts/new">New Post</a>
+    <% }; %>
+    <a href="/logout"><%= locals?.user ? "Logout" : "Login" %></a>
 
     <% if (locals.posts) { %> 
         <% posts.forEach(post => { %>
 
             <p>Author: <%= user?.member_status ? post.username : "******" %></p>
             <p><%= post.message %></p>
+            <p>
+                <%= new Date(post.created_at).toLocaleString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit"
+                }) %>
+            </p>
 
             <% if (user?.member_status === "admin") { %>
                 <form action="/delete-post/<%= post.id %>" method="POST">

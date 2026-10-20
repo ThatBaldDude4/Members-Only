@@ -1,7 +1,7 @@
-const { addNewUser, getAllPosts, deletePost, updateMembership, addNewPost } = require("../db/queries");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const { body, validationResult } = require("express-validator");
+const { prisma } = require("../lib/prisma")
 
 const signUpValidation = [
     body("first_name")
@@ -70,7 +70,17 @@ const postSignUpController = [
         }
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
-            await addNewUser({first_name, last_name, username, hashedPassword, email});
+            await prisma.user.create({
+                data: {
+                    first_name,
+                    last_name,
+                    username,
+                    hash: hashedPassword,
+                    email
+                }
+            })
+            // old way
+            // await addNewUser({first_name, last_name, username, hashedPassword, email});
             res.redirect("/");
         }catch(err) {
             if (err.code === "23505") {
@@ -109,7 +119,11 @@ const getLogoutController = (req, res, next) => {
 }
 
 const getHomeController = async (req, res) => {
-    const posts = await getAllPosts();
+    const posts = await prisma.post.findMany({
+        include: {
+            user: true
+        }
+    });
     res.render("home", {user: req.user, posts: posts})
 }
 
@@ -122,12 +136,18 @@ const postMembershipController = async (req, res) => {
     const code = req.body.membership_password;
     
     if (code === process.env.MEMBER_PASSWORD) {
-        await updateMembership(req.user.id, "member")
+        await prisma.user.update({
+            where: { id: req.user.id },
+            data: { member_status: "member"}
+        })
         return res.redirect("/home");
     }
 
     if (code === process.env.ADMIN_PASSWORD) {
-        await updateMembership(req.user.id, "admin")
+        await prisma.user.update({
+            where: { id: req.user.id },
+            data: { member_status: "admin"}
+        })
         return res.redirect("/home");
     };
 
@@ -152,7 +172,13 @@ const postNewPostsController = [
 
         try {
             const { title, message } = req.body;
-            await addNewPost({title, message, user_id: req.user.id});
+            await prisma.post.create({
+                data: {
+                    title,
+                    message,
+                    user_id: req.user.id
+                }
+            })
             res.redirect("/home");
         }catch(err) {
             next(err);
@@ -165,7 +191,11 @@ const postDeletePostController = async (req, res) => {
     if (req.user.member_status !== "admin" || !id) {
         return res.redirect("/home");
     };
-    await deletePost(id);
+    await prisma.post.delete({
+        where: {
+            id: id
+        }
+    });
     res.redirect("/home");
 }
 

@@ -19,7 +19,7 @@
 
             <div>
                 <h3><%= post.title %></h3>
-                <p>Author: <%= user?.member_status ? post.username : "******" %></p>
+                <p>Author: <%= user?.member_status ? post.user.username : "******" %></p>
                 <p><%= post.message %></p>
                 <% if (user?.member_status) { %>
                     <p>

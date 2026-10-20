@@ -1,10 +1,9 @@
 {
-    "type": "module",
+    "type": "commonjs",
     "dependencies": {
         "@prisma/adapter-pg": "^7.10.0",
         "@prisma/client": "^7.10.0",
         "bcryptjs": "^3.0.3",
-        "connect-pg-simple": "^10.0.0",
         "dotenv": "^18.0.8",
         "ejs": "^7.0.1",
         "express": "^5.2.1",
@@ -15,8 +14,6 @@
         "pg": "^8.23.1"
     },
     "scripts": {
-        "db:create": "node db/tableUtils create",
-        "db:delete": "node db/tableUtils delete",
         "start": "node app.js"
     },
     "devDependencies": {

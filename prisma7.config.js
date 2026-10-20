@@ -3,7 +3,13 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
-process.loadEnvFile();
+try {
+    process.loadEnvFile();
+} catch (err) {
+    if (err.code !== "ENOENT") {
+        throw err;
+    }
+}
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
